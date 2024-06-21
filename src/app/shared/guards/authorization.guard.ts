@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable, map } from 'rxjs';
 import { SharedService } from '../shared.service';
 import { ContaService } from 'src/app/conta/conta.service';
-import { User } from '../models/user';
+import { User } from '../models/conta/user';
 
 
 @Injectable({

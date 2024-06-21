@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { User } from '../shared/models/user';
+import { User } from '../shared/models/conta/user';
 import { ReplaySubject, map, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Registro } from '../shared/models/registro';
-import { Login } from '../shared/models/login';
+import { Registro } from '../shared/models/conta/registro';
+import { Login } from '../shared/models/conta/login';
 import { environment } from 'src/environments/environment.development';
+import { ConfirmaEmail } from '../shared/models/conta/confirma-email';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,10 @@ export class ContaService {
             }
           })
         );
+      }
+
+      confirmEmail(confirmaEmail: ConfirmaEmail) {
+        return this.http.put(`${environment.baseUrl}conta/confirm-email`, confirmaEmail);
       }
 
       logout() {

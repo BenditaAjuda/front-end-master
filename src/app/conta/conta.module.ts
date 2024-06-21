@@ -6,12 +6,14 @@ import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmaEmailComponent } from './confirma-email/confirma-email.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    ConfirmaEmailComponent
   ],
   imports: [
     CommonModule,
