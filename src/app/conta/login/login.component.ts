@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({});
   submitted = false;
   errorMessages: string[] = [];
+  returnUrl: string | null = null;
 
   constructor(private contaService: ContaService,
               private formBuilder: FormBuilder,
@@ -33,8 +34,17 @@ export class LoginComponent implements OnInit {
                       console.log("Aqui", user);
                       this.router.navigateByUrl('/');
                     }
+                    else{
+                      this.activatedRoute.queryParamMap.subscribe({
+                        next: (param: any) => {
+                          if(param){
+                            this.returnUrl = param.get('returnUrl');
+                          }
+                        }
+                      })
+                    }
                   }
-                })
+                });
               }
 
     initializeForm() {
@@ -56,8 +66,12 @@ export class LoginComponent implements OnInit {
         this.spinner.show();
         this.contaService.login(this.loginForm.value).subscribe({
           next: (response: any) => {
-            //this.toastr.success("Sucesso ao logar");
-            this.router.navigateByUrl('/');
+            if(this.returnUrl){
+              this.router.navigateByUrl(this.returnUrl);
+            }
+            else {
+              this.router.navigateByUrl('/');
+            }
           },
           error: error => {
             if (error.error.errors) {

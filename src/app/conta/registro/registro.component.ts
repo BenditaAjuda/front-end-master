@@ -2,10 +2,12 @@ import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContaService } from '../conta.service';
 import { SharedService } from 'src/app/shared/shared.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DOCUMENT } from '@angular/common';
+import { take } from 'rxjs';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-registro',
@@ -18,15 +20,24 @@ export class RegistroComponent implements OnInit {
   submitted = false;
   errorMessages: string[] = [];
 
-
   constructor(private contaService: ContaService,
               private formBuilder: FormBuilder,
               private sharedService: SharedService,
               private router: Router,
               private _renderer2: Renderer2,
               private toastr: ToastrService,
+              private activatedRoute: ActivatedRoute,
               private spinner: NgxSpinnerService,
-              @Inject(DOCUMENT) private _document: Document) {}
+              @Inject(DOCUMENT) private _document: Document) {
+                this.contaService.user$.pipe(take(1)).subscribe({
+                  next: (user: User | null) => {
+                    if(user) {
+                      console.log("Aqui", user);
+                      this.router.navigateByUrl('/');
+                    }
+                  }
+                });
+              }
 
   ngOnInit(): void {
     this.initializeForm();
