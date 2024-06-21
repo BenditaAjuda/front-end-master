@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ContaService } from './conta/conta.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,27 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular16-front-end';
+  title = 'Bendita Ajuda';
+
+  constructor(private contaService: ContaService) {}
+
+  ngOnInit(): void {
+    this.refreshUser();
+  }
+
+  private refreshUser() {
+    const jwt = this.contaService.getJWT();
+    if(jwt) {
+      this.contaService.refreshUser(jwt).subscribe({
+        next: _ => {},
+        error: _ => {
+          this.contaService.logout();
+        }
+      })
+    }
+    else {
+      this.contaService.refreshUser(null).subscribe();
+    }
+  }
+
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-notification',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotificationComponent implements OnInit {
 
-  constructor() { }
+  isSuccess: boolean = true;
+  title: string = '';
+  message: string = '';
+
+  constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
   }

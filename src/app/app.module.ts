@@ -13,16 +13,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
-      AutorizadoComponent,
-      HomeComponent,
-      NavbarComponent
+    AutorizadoComponent,
+    HomeComponent,
+    NavbarComponent
    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgxSpinnerModule,
     SharedModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

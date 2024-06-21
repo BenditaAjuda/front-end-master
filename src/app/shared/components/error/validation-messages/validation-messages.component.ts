@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-validation-messages',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./validation-messages.component.css']
 })
 export class ValidationMessagesComponent implements OnInit {
+
+  @Input() errorMessages: string[] | undefined;
 
   constructor() { }
 
