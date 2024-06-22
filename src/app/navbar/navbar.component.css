@@ -1,0 +1,9 @@
+.custom-link {
+  color: aliceblue;
+  font-size: 22px;
+}
+
+.custom-link:hover {
+  color: black;
+  font-size: 22px;
+}

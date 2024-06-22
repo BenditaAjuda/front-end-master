@@ -1,0 +1,24 @@
+.envia-email-form-custom {
+  width: 400px;
+  margin-top: 150px;
+  padding: 50px;
+  border: 1px solid #77aaff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.botao-rede-social {
+  width: 100px;
+}
+
+@media only screen and (max-width: 600px) {
+  .botao-rede-social {
+    width: 100px;
+  }
+
+  .envia-email-form-custom {
+    margin-top: 50px;
+    align-items: center;
+    width: 320px;
+    padding: 20px;
+  }
+}

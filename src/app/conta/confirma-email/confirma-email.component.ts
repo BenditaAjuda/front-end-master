@@ -49,7 +49,7 @@ export class ConfirmaEmailComponent {
   }
 
   resendEmailConfirmationLink() {
-    //this.router.navigateByUrl('/account/send-email/resend-email-confirmation-link');
+    this.router.navigateByUrl('/conta/envia-email/resend-email-confirmation-link');
   }
 
 }

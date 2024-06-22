@@ -7,6 +7,7 @@ import { Registro } from '../shared/models/conta/registro';
 import { Login } from '../shared/models/conta/login';
 import { environment } from 'src/environments/environment.development';
 import { ConfirmaEmail } from '../shared/models/conta/confirma-email';
+import { ResetPassword } from '../shared/models/conta/reset-password';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,18 @@ export class ContaService {
 
       confirmEmail(confirmaEmail: ConfirmaEmail) {
         return this.http.put(`${environment.baseUrl}conta/confirm-email`, confirmaEmail);
+      }
+
+      resendEmailConfirmationLink(email: string) {
+        return this.http.post(`${environment.baseUrl}conta/resend-email-confirmation-link/${email}`, {});
+      }
+
+      forgotUsernameOrPassword(email: string) {
+        return this.http.post(`${environment.baseUrl}conta/forgot-username-or-password/${email}`, {});
+      }
+
+      resetPassword(resetPassword: ResetPassword) {
+        return this.http.put(`${environment.baseUrl}conta/reset-password`, resetPassword);
       }
 
       logout() {

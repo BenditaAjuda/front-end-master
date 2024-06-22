@@ -8,19 +8,19 @@
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/">Home 2</a>
+            <a class="nav-link custom-link" routerLink="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/autorizado/">Autorizado</a>
+            <a class="nav-link custom-link" routerLink="/autorizado/">Autorizado</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/conta/registro" routerLinkActive="active" *ngIf="(contaService.user$ | async) === null">Criar Conta</a>
+            <a class="nav-link custom-link" routerLink="/conta/registro" routerLinkActive="active" *ngIf="(contaService.user$ | async) === null">Criar Conta</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/conta/login" routerLinkActive="active" *ngIf="(contaService.user$ | async) === null">Login</a>
+            <a class="nav-link custom-link" routerLink="/conta/login" routerLinkActive="active" *ngIf="(contaService.user$ | async) === null">Login</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <a class="nav-link dropdown-toggle custom-link" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="#">Action</a>
                 <a class="dropdown-item" href="#">Another action</a>
