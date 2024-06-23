@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   errorMessages: string[] = [];
   returnUrl: string | null = null;
+  botaoReenvio: boolean = false;
 
   constructor(private contaService: ContaService,
               private formBuilder: FormBuilder,
@@ -75,9 +76,14 @@ export class LoginComponent implements OnInit {
           },
           error: error => {
             if (error.error.errors) {
+              console.log("Caiu 1");
               this.errorMessages = error.error.errors;
               this.spinner.hide();
             } else {
+              console.log("Caiu 2", error.error);
+              if(error.error == "Confirme seu email"){
+                this.botaoReenvio = true;
+              }
               this.errorMessages.push(error.error);
               this.spinner.hide();
             }
