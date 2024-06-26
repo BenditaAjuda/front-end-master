@@ -10,12 +10,14 @@ import { NotificationComponent } from './components/modal/notification/notificat
 import { HttpClientModule } from '@angular/common/http';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
+import { PapelUsuarioDirective } from './directives/papel-usuario.directive';
 
 @NgModule({
   declarations: [
     NotFoundComponent,
     ValidationMessagesComponent,
-    NotificationComponent
+    NotificationComponent,
+    PapelUsuarioDirective
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     ValidationMessagesComponent,
     HttpClientModule,
+    PapelUsuarioDirective
   ]
 })
 export class SharedModule { }

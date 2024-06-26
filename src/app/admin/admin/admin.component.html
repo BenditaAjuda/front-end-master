@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="my-3">
+    <a class="btn btn-outline-primary" routerLink="/admin/add-edit-member">Criar Usuário</a>
+  </div>
+  <div class="mt-3">
+
+        <div class="d-style btn btn-brc-tp border-2 bgc-white btn-outline-blue btn-h-outline-blue btn-a-outline-blue w-100 my-2 py-3 shadow-sm" *ngFor="let usuario of usuarios">
+          <!-- Basic Plan -->
+          <div class="row align-items-center">
+            <div class="col-12 col-md-4">
+              <h2 class="pt-3 text-170 text-600 text-primary-d1 letter-spacing">
+               {{ usuario.userName }}
+              </h2>
+
+              <div class="text-secondary-d1 text-120">
+                <span class="text-180">{{ usuario.firstName }}</span>
+              </div>
+            </div>
+
+            <ul class="list-unstyled mb-0 col-6 col-md-2 text-dark-l1 text-90 text-left my-4 my-md-0">
+              <li *ngFor="let nivel of usuario.roles; let i = index">
+                <i class="fa fa-check text-success-m2 text-110 mr-2 mt-1"></i>
+                <span>
+                {{ nivel }}
+                </span>
+              </li>
+            </ul>
+
+            <ul class="list-unstyled mb-0 col-6 col-md-2 text-dark-l1 text-90 text-left my-4 my-md-0">
+              <li>
+                <ul class="list-unstyled mb-0 col-6 col-md-0 text-dark-l1 text-90 text-left my-4 my-md-0">
+                  <li>
+                      <span class="badge bg-warning" style="padding: 7px; font-size: 15px;" *ngIf="!usuario.isLocked" (click)="lockUsuario(usuario.id)">Bloquear</span>
+                  </li>
+                  <li>
+                      <span class="badge bg-info" style="padding: 7px; font-size: 15px;" *ngIf="usuario.isLocked" (click)="unlockUsuario(usuario.id)">Desbloquear</span>
+                  </li>
+                </ul>
+
+              </li>
+            </ul>
+
+            <ul class="list-unstyled mb-0 col-6 col-md-1 text-dark-l1 text-90 text-left my-4 my-md-0" style="margin-right: 50px;">
+              <li>
+                <ul class="list-unstyled mb-0 col-6 col-md-0 text-dark-l1 text-90 text-left my-4 my-md-0">
+                  <li>
+                    <span class="badge bg-success" style="padding: 7px; font-size: 15px;">Ativado</span>
+                  </li>
+                </ul>
+
+              </li>
+            </ul>
+
+            <ul class="list-unstyled mb-0 col-6 col-md-2 text-dark-l1 text-90 text-left my-4 my-md-0">
+              <li>
+                <ul class="list-unstyled mb-0 col-6 col-md-0 text-dark-l1 text-90 text-left my-4 my-md-0">
+                  <li>
+                    <button type="button" class="btn btn-secondary" style="margin-bottom: 20px;" tooltip="Excluir">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+      </svg>
+                    </button>
+                    <button type="button" class="btn btn-secondary" tooltip="Alterar">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                      </svg>
+                    </button>
+                  </li>
+                </ul>
+
+              </li>
+            </ul>
+
+          </div>
+        </div>
+
+  </div>
+ </div>
+
