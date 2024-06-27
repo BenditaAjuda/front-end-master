@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UsuarioView } from 'src/app/shared/models/admin/usuarioView';
 import { AdminService } from '../admin.service';
 import { SharedService } from 'src/app/shared/shared.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin',
@@ -17,26 +18,39 @@ export class AdminComponent implements OnInit {
 
   constructor(private adminService: AdminService,
               private sharedService: SharedService,
-              private modalService: BsModalService) { }
+              private modalService: BsModalService,
+              private spinner: NgxSpinnerService,) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.adminService.getUsuarios().subscribe({
-      next: usuarios => this.usuarios = usuarios
+      next: usuarios => this.usuarios = usuarios,
+      complete: () => {
+        this.spinner.hide();
+      }
     });
   }
 
   lockUsuario(id: string) {
+    this.spinner.show();
     this.adminService.lockUsuario(id).subscribe({
       next: _ => {
         this.handleLockUnlockFilterAndMessage(id, true);
+      },
+      complete: () => {
+        this.spinner.hide();
       }
     })
   }
 
   unlockUsuario(id: string) {
+    this.spinner.show();
     this.adminService.unlockUsuario(id).subscribe({
       next: _ => {
         this.handleLockUnlockFilterAndMessage(id, false);
+      },
+      complete: () => {
+        this.spinner.hide();
       }
     })
   }

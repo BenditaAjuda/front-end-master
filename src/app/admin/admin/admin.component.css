@@ -95,3 +95,27 @@
 .deleted-text{
 text-decoration:line-through;;
 }
+
+.buttons-custom {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.badge-mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .badge-mobile {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  .desktop {
+    display: none;
+  }
+}
+
+
+
