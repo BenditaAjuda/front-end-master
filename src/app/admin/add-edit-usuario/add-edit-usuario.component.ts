@@ -22,6 +22,8 @@ export class AddEditUsuarioComponent implements OnInit {
   existingUsuarioRoles: string[] = [];
   usuarioEdit?: UsuarioAddEdit;
   id?: any;
+  roleAtual: string = "";
+  roleShowChanges: string[] = []
 
   constructor(private adminService: AdminService,
               private sharedService: SharedService,
@@ -33,23 +35,15 @@ export class AddEditUsuarioComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.buscarUsuarioId();
-
-   /* const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id) {
-      this.getUsuario(id);
-    } else {
-        this.sharedService.showNotification(true, "Não existe usuário", "Sair");
-        this.router.navigateByUrl('/');
-    }*/
     this.getRoles();
 
     this.usuarioForm = this.formBuilder.group({
       id: [''],
       firstName: [''],
       lastName: [''],
-      userName: [{value: this.usuarioEdit?.userName, disabled: true}],
+      userName: [''],
       password: [''],
-      roles: ['']
+      roles: ['', Validators.required]
     })
 
   }
@@ -59,6 +53,7 @@ export class AddEditUsuarioComponent implements OnInit {
     this.adminService.getUsuario(this.id).subscribe({
         next: (usuario: UsuarioAddEdit) => {
           this.usuarioForm.patchValue(usuario);
+          this.roleAtual = usuario.roles;
           this.spinner.hide();
           },
         error: (error: any) => {
@@ -94,27 +89,31 @@ export class AddEditUsuarioComponent implements OnInit {
     }
 
     this.usuarioForm.controls['roles'].setValue(roles.join(','));
+
+    this.roleShowChanges = this.usuarioForm.get('roles')?.value
+
+    console.log("Array: ", this.usuarioForm.get('roles')?.value);
   }
 
   submit() {
+    console.log("Form: ", this.usuarioForm);
     this.submitted = true;
     this.errorMessages = [];
-
-    if (this.usuarioForm.valid) {
-      this.adminService.addEditUsuario(this.usuarioForm.value).subscribe({
+      if (this.usuarioForm.valid) {
+       this.adminService.addEditUsuario(this.usuarioForm.value).subscribe({
         next: (response: any) => {
           this.sharedService.showNotification(true, response.value.titile, response.value.message);
           this.router.navigateByUrl('/admin');
-        },
+       },
         error: error => {
-          if (error.error.errors) {
-            this.errorMessages = error.error.errors;
-          } else {
+           if (error.error.errors) {
+             this.errorMessages = error.error.errors;
+        } else {
             this.errorMessages.push(error.error);
           }
         }
-      })
-    }
-  }
-
+       })
+     }
+ }
 }
+

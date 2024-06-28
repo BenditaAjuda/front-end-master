@@ -1,9 +1,12 @@
 <div class="d-flex justify-content-center edit-form-custom">
   <div class="">
       <main class="form-signin">
-          <form [formGroup]="usuarioForm">
+          <form [formGroup]="usuarioForm" (ngSubmit)="submit()">
               <div class="text-center mb-4">
                   <h3 class="mb-3 font-weight-normal">Alterar nível de acesso</h3>
+                  <h2 class="pt-3 text-170 text-600 text-primary-d1 letter-spacing">
+                    Atual: {{ roleAtual }}
+                  </h2>
               </div>
               <div class="form-floating mb-3">
                   <input formControlName="userName"
@@ -12,7 +15,7 @@
                          class="form-control">
               </div>
 
-              <div class="row d-flex justify-content-center">
+              <div class="row buttons-role">
                 <div class="col-10">
                     <div class="btn-group">
                         <ng-container *ngFor="let role of applicationRoles">
@@ -24,8 +27,14 @@
                     </div>
                 </div>
             </div>
-            <div class="text-danger" *ngIf="submitted && usuarioForm.get('roles')?.hasError('required')">
-                Please select at least one role
+            <p class=" text-center text-secondary-d1" style="font-weight: 600;" *ngIf="roleShowChanges.length > 0">Mudar para:</p>
+            <div class="text-role">
+              <h2 class="pt-3 text-170 text-600 text-green-d1 letter-spacing" *ngIf="roleShowChanges.length > 0">
+                {{ roleShowChanges }}
+              </h2>
+              <div class="text-danger" *ngIf="submitted && usuarioForm.get('roles')?.hasError('required')">
+                  Obrigatório ter pelo menos 1 nível de acesso
+              </div>
             </div>
 
               <div class="form-floatin" *ngIf="errorMessages.length > 0">
@@ -34,6 +43,9 @@
               <div class="d-grid mt-4 px-1">
                   <button class="btn btn-lg btn-info" type="submit">Salvar</button>
               </div>
+              <div class="d-grid mt-4 px-1">
+                <button class="btn btn-lg btn-warning"  routerLink="/admin">Voltar</button>
+            </div>
             </form>
       </main>
   </div>
