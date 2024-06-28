@@ -4,6 +4,7 @@ import { AdminService } from '../admin.service';
 import { SharedService } from 'src/app/shared/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioAddEdit } from 'src/app/shared/models/admin/usuarioAddEdit';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-edit-usuario',
@@ -19,64 +20,80 @@ export class AddEditUsuarioComponent implements OnInit {
   errorMessages: string[] = [];
   applicationRoles: string[] = [];
   existingUsuarioRoles: string[] = [];
+  usuarioEdit?: UsuarioAddEdit;
+  id?: any;
 
   constructor(private adminService: AdminService,
               private sharedService: SharedService,
               private formBuilder: FormBuilder,
               private router: Router,
+              private spinner: NgxSpinnerService,
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.spinner.show();
+    this.buscarUsuarioId();
+
+   /* const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
-      this.addNew = false; // this means we are editing a member
       this.getUsuario(id);
     } else {
-      this.initializeForm(undefined);
-    }
+        this.sharedService.showNotification(true, "Não existe usuário", "Sair");
+        this.router.navigateByUrl('/');
+    }*/
+    this.getRoles();
 
-    //this.getRoles();
+    this.usuarioForm = this.formBuilder.group({
+      id: [''],
+      firstName: [''],
+      lastName: [''],
+      userName: [{value: this.usuarioEdit?.userName, disabled: true}],
+      password: [''],
+      roles: ['']
+    })
+
   }
+
+  public buscarUsuarioId(): void{
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.adminService.getUsuario(this.id).subscribe({
+        next: (usuario: UsuarioAddEdit) => {
+          this.usuarioForm.patchValue(usuario);
+          this.spinner.hide();
+          },
+        error: (error: any) => {
+          this.spinner.hide();
+          },
+        complete: () => {
+          this.spinner.hide();
+          }
+      });
+}
 
   getUsuario(id: string) {
     this.adminService.getUsuario(id).subscribe({
-      next: usuario => {
-        this.initializeForm(usuario);
+      next: (usuario : UsuarioAddEdit) => {
+        this.usuarioEdit = usuario;
       }
     })
   }
 
-  /*getRoles() {
-    this.adminService.getApplicationRoles().subscribe({
+  getRoles() {
+    this.adminService.getPapeis().subscribe({
       next: roles => this.applicationRoles = roles
     });
-  }*/
+  }
 
-  initializeForm(usuario: UsuarioAddEdit | undefined) {
-    if (usuario) {
-      // form for editing an existing member
-      this.usuarioForm = this.formBuilder.group({
-        id: [usuario.id],
-        firstName: [usuario.firstName, Validators.required],
-        lastName: [usuario.lastName, Validators.required],
-        userName: [usuario.userName, Validators.required],
-        password: [''],
-        roles: [usuario.roles, Validators.required]
-      });
-      this.existingUsuarioRoles = usuario.roles.split(',');
-    } else {
-      // form for creating a member
-      this.usuarioForm = this.formBuilder.group({
-        id: [''],
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        userName: ['', Validators.required],
-        password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
-        roles: ['', Validators.required]
-      });
+  roleOnChange(selectedRole: string) {
+    let roles = this.usuarioForm.get('roles')?.value.split(',');
+    const index = roles.indexOf(selectedRole);
+    index !== -1 ? roles.splice(index, 1) : roles.push(selectedRole);
+
+    if (roles[0] === "") {
+      roles.splice(0, 1);
     }
 
-    this.formInitialized = true;
+    this.usuarioForm.controls['roles'].setValue(roles.join(','));
   }
 
   submit() {

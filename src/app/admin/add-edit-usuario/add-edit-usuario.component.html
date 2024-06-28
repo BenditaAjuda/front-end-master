@@ -1,3 +1,40 @@
-<p>
-  add-edit-usuario works!
-</p>
+<div class="d-flex justify-content-center edit-form-custom">
+  <div class="">
+      <main class="form-signin">
+          <form [formGroup]="usuarioForm">
+              <div class="text-center mb-4">
+                  <h3 class="mb-3 font-weight-normal">Alterar nível de acesso</h3>
+              </div>
+              <div class="form-floating mb-3">
+                  <input formControlName="userName"
+                         type="text"
+                         id="username"
+                         class="form-control">
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-10">
+                    <div class="btn-group">
+                        <ng-container *ngFor="let role of applicationRoles">
+                            <input type="checkbox" class="btn-check" id="{{role}}" (change)="roleOnChange(role)"
+                                [checked]="existingUsuarioRoles.includes(role)"
+                                [class.is-invalid]="submitted && usuarioForm.get('roles')?.errors">
+                            <label class="btn btn-outline-primary" for="{{role}}">{{role}}</label>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="text-danger" *ngIf="submitted && usuarioForm.get('roles')?.hasError('required')">
+                Please select at least one role
+            </div>
+
+              <div class="form-floatin" *ngIf="errorMessages.length > 0">
+                <app-validation-messages [errorMessages]="errorMessages"></app-validation-messages>
+              </div>
+              <div class="d-grid mt-4 px-1">
+                  <button class="btn btn-lg btn-info" type="submit">Salvar</button>
+              </div>
+            </form>
+      </main>
+  </div>
+</div>

@@ -6,11 +6,13 @@ import { AdminComponent } from './admin/admin.component';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SharedModule } from '../shared/shared.module';
+import { AddEditUsuarioComponent } from './add-edit-usuario/add-edit-usuario.component';
 
 
 @NgModule({
   declarations: [
-    AdminComponent
+    AdminComponent,
+    AddEditUsuarioComponent
   ],
   imports: [
     CommonModule,
