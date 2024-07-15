@@ -1,5 +1,5 @@
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-info p-3">
+<header style="margin-top: 150px;">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-info p-3">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"><img src="./../../assets/img/issuu.svg" height="50px" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,9 +10,15 @@
           <li class="nav-item">
             <a class="nav-link custom-link" routerLink="/">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link custom-link" routerLink="/autorizado/">Autorizado</a>
-          </li>
+          <ng-container *ngIf="contaService.user$ | async">
+            <li class="nav-item">
+              <a class="nav-link custom-link" routerLink="/autorizado/">Autorizado</a>
+            </li>
+            <li class="nav-item" *ngIf="papelUsuario.includes('Super')" >
+              <a class="nav-link custom-link" routerLink="/admin/">Admin</a>
+            </li>
+          </ng-container>
+
           <li class="nav-item">
             <a class="nav-link custom-link" routerLink="/conta/registro" routerLinkActive="active" *ngIf="(contaService.user$ | async) === null">Criar Conta</a>
           </li>

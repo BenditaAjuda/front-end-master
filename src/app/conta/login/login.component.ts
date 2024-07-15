@@ -69,9 +69,11 @@ export class LoginComponent implements OnInit {
           next: (response: any) => {
             if(this.returnUrl){
               this.router.navigateByUrl(this.returnUrl);
+              location.reload();
             }
             else {
               this.router.navigateByUrl('/');
+              location.reload();
             }
           },
           error: error => {

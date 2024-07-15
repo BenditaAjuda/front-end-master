@@ -13,9 +13,9 @@ const routes: Routes = [
     canActivate: [AuthorizationGuard],
     children: [
       { path: 'autorizado', component: AutorizadoComponent },
+      { path: 'admin', loadChildren: () => import('./admin/admin.module').then(module => module.AdminModule)}
     ]
   },
-  //{ path: 'autorizado', component: AutorizadoComponent },
   { path: 'conta', loadChildren: () => import('./conta/conta.module')
     .then(
       module => module.ContaModule
