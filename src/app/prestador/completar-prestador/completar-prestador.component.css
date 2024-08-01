@@ -1,4 +1,4 @@
-/* .complete-form-custom {
+.complete-form-custom {
   width: 400px;
   margin-top: 20px;
   padding: 50px;
@@ -22,8 +22,8 @@
     width: 320px;
     padding: 20px;
   }
-} */
+}
 
-.tab-content > .tab-pane {
-  padding: 15px;
+.container {
+  max-width: 600px;
 }

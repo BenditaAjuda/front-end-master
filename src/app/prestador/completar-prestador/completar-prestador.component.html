@@ -1,7 +1,4 @@
-<!--
-
 <div class="d-flex justify-content-center complete-form-custom">
-  <div class="">
       <main class="form-signin">
 
               <div class="text-center mb-4">
@@ -14,7 +11,7 @@
                 <button class="btn btn-primary" (click)="buscarCep()" type="button" id="button-addon2">Buscar</button>
               </div>
 
-
+              <p class="text-danger">{{ mensagemErro }}</p>
 
 
               <div *ngIf="cepInfo">
@@ -24,68 +21,65 @@
                 <p>Bairro: {{ cepInfo.bairro }}</p>
                 <p>Cidade: {{ cepInfo.localidade }}</p>
                 <p>Estado: {{ cepInfo.uf }}</p>
+</div>
 
-            </div>
+                <div class="container mt-5">
+                  <h2>Multi-Step Form</h2>
+                  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div *ngIf="currentStep === 1" formGroupName="step1">
+                      <div class="mb-3">
+                        <label for="cep" class="form-label">CEP</label>
+                        <input id="cep" type="text" class="form-control" formControlName="cep">
+                      </div>
+                      <div class="mb-3">
+                        <label for="logradouro" class="form-label">Logradouro</label>
+                        <input id="logradouro" type="text" class="form-control" formControlName="logradouro">
+                      </div>
+                      <div class="mb-3">
+                        <label for="bairro" class="form-label">Bairro</label>
+                        <input id="bairro" type="text" class="form-control" formControlName="bairro">
+                      </div>
+                      <div class="mb-3">
+                        <label for="cidade" class="form-label">Cidade</label>
+                        <input id="cidade" type="text" class="form-control" formControlName="cidade">
+                      </div>
+                      <div class="mb-3">
+                        <label for="estado" class="form-label">Estado</label>
+                        <input id="estado" type="text" class="form-control" formControlName="estado">
+                      </div>
+                    </div>
+
+                    <div *ngIf="currentStep === 2" formGroupName="step2">
+                      <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input id="address" type="text" class="form-control" formControlName="address">
+                      </div>
+                      <div class="mb-3">
+                        <label for="city" class="form-label">City</label>
+                        <input id="city" type="text" class="form-control" formControlName="city">
+                      </div>
+                    </div>
+
+                    <div *ngIf="currentStep === 3" formGroupName="step3">
+                      <div class="mb-3">
+                        <label for="cardNumber" class="form-label">Card Number</label>
+                        <input id="cardNumber" type="text" class="form-control" formControlName="cardNumber">
+                      </div>
+                      <div class="mb-3">
+                        <label for="cardExpiry" class="form-label">Card Expiry</label>
+                        <input id="cardExpiry" type="text" class="form-control" formControlName="cardExpiry">
+                      </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                      <button type="button" class="btn btn-secondary" (click)="goToPrevStep()" [disabled]="currentStep === 1">Previous</button>
+                      <button type="button" class="btn btn-primary" (click)="goToNextStep()" [disabled]="currentStep === 3">Next</button>
+                      <button type="submit" class="btn btn-success" [disabled]="currentStep !== 3">Submit</button>
+                    </div>
+                  </form>
+                </div>
 
       </main>
-  </div>
-</div> -->
-
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <!-- Step Navigation -->
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Step 1</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Step 2</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Step 3</button>
-              </li>
-            </ul>
-
-            <!-- Form Steps -->
-            <div class="tab-content" id="pills-tabContent">
-              <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                <!-- Step 1 Content -->
-                <div class="mb-3">
-                  <label for="inputEmail" class="form-label">Email address</label>
-                  <input type="email" id="inputEmail" formControlName="email" class="form-control">
-                </div>
-                <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
-              </div>
-
-              <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                <!-- Step 2 Content -->
-                <div class="mb-3">
-                  <label for="inputName" class="form-label">Full Name</label>
-                  <input type="text" id="inputName" formControlName="name" class="form-control">
-                </div>
-                <button type="button" class="btn btn-secondary" (click)="prevStep()">Previous</button>
-                <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
-              </div>
-
-              <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                <!-- Step 3 Content -->
-                <div class="mb-3">
-                  <label for="inputAddress" class="form-label">Address</label>
-                  <input type="text" id="inputAddress" formControlName="address" class="form-control">
-                </div>
-                <button type="button" class="btn btn-secondary" (click)="prevStep()">Previous</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 

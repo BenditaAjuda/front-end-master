@@ -17,15 +17,31 @@ export class CompletarPrestadorComponent implements OnInit{
   sobrenome?: string;
   data: string | null = null;
   form: FormGroup;
+  currentStep: number = 1;
+  mensagemErro = "";
 
   constructor(private cepService: CepService,
               private route: ActivatedRoute,
               private fb: FormBuilder) {
+
                 this.form = this.fb.group({
-                  email: ['', [Validators.required, Validators.email]],
-                  name: ['', Validators.required],
-                  address: ['', Validators.required]
+                  step1: this.fb.group({
+                    cep: [this.cepInfo?.cep, Validators.required],
+                    logradouro: [this.cepInfo?.logradouro, [Validators.required, Validators.email]],
+                    bairro: [this.cepInfo?.bairro, [Validators.required, Validators.email]],
+                    cidade: [this.cepInfo?.localidade, [Validators.required, Validators.email]],
+                    estado: [this.cepInfo?.uf, [Validators.required, Validators.email]],
+                  }),
+                  step2: this.fb.group({
+                    address: ['', Validators.required],
+                    city: ['', Validators.required],
+                  }),
+                  step3: this.fb.group({
+                    cardNumber: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],
+                    cardExpiry: ['', Validators.required],
+                  }),
                 });
+
               }
 
   ngOnInit(): void {
@@ -39,31 +55,37 @@ export class CompletarPrestadorComponent implements OnInit{
   }
 
   buscarCep() {
-    this.cepService.getCepInfo(this.cep).subscribe(
-      data => this.cepInfo = data,
-      error => console.error(error)
-    );
+    this.cepService.getCepInfo(this.cep).subscribe( {
+      next: (response: any) => {
+        this.cepInfo = response
+        if(response.erro){
+          this.mensagemErro = "Endereço não encontrado";
+
+        }
+        else{
+          console.log("Acerto");
+
+        }
+      }
+    })
   }
 
-  nextStep() {
-    const activeTab = document.querySelector('.nav-link.active') as HTMLElement;
-    const nextTab = activeTab.nextElementSibling as HTMLElement;
-    if (nextTab) {
-      nextTab.click();
+  goToNextStep() {
+    if (this.currentStep < 3) {
+      this.currentStep++;
     }
   }
 
-  prevStep() {
-    const activeTab = document.querySelector('.nav-link.active') as HTMLElement;
-    const prevTab = activeTab.previousElementSibling as HTMLElement;
-    if (prevTab) {
-      prevTab.click();
+  goToPrevStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
     }
   }
 
   onSubmit() {
     if (this.form.valid) {
-      console.log('Form Value:', this.form.value);
+      console.log(this.form.value);
+      alert('Form Submitted Successfully!');
     }
   }
 
