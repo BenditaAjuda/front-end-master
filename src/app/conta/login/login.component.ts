@@ -7,6 +7,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { take } from 'rxjs';
 import { User } from 'src/app/shared/models/conta/user';
+import { environment } from 'src/environments/environment.development';
+import jwt_decode from 'jwt-decode';
+import { PrestadorService } from 'src/app/prestador/prestador-service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +23,7 @@ export class LoginComponent implements OnInit {
   errorMessages: string[] = [];
   returnUrl: string | null = null;
   botaoReenvio: boolean = false;
+  private isLocalStorageAvailable = typeof localStorage !== 'undefined';
 
   constructor(private contaService: ContaService,
               private formBuilder: FormBuilder,
@@ -27,6 +31,7 @@ export class LoginComponent implements OnInit {
               private toastr: ToastrService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
+              private prestadorService: PrestadorService,
               private _renderer2: Renderer2,
               @Inject(DOCUMENT) private _document: Document) {
                 this.contaService.user$.pipe(take(1)).subscribe({
@@ -67,13 +72,17 @@ export class LoginComponent implements OnInit {
         this.spinner.show();
         this.contaService.login(this.loginForm.value).subscribe({
           next: (response: any) => {
-            if(this.returnUrl){
-              this.router.navigateByUrl(this.returnUrl);
-              location.reload();
-            }
-            else {
-              this.router.navigateByUrl('/');
-              location.reload();
+            if (this.isLocalStorageAvailable) {
+              const key = localStorage.getItem(environment.userKey);
+              if(key){
+                const user: User = JSON.parse(key);
+                const decodedToken: any = jwt_decode(user.jwt);
+                const email = decodedToken.email;
+                const role = decodedToken.role;
+                const nome = decodedToken.given_name;
+                const sobrenome = decodedToken.family_name;
+                this.consultaPrestadorExiste(email+'|'+nome+'|'+sobrenome);
+              }
             }
           },
           error: error => {
@@ -96,6 +105,16 @@ export class LoginComponent implements OnInit {
         })
       }
     }
+
+    consultaPrestadorExiste(email: string) {
+      this.prestadorService.getPrestadorExiste(email).subscribe({
+        next: (response: any) => {
+          this.router.navigate(['/completar-prestador/', email]);
+        }, error: error => {
+          this.router.navigateByUrl('/prestador');
+        }
+    })
+  }
 
     resendEmailConfirmationLink() {
       this.router.navigateByUrl('/conta/envia-email/resend-email-confirmation-link');

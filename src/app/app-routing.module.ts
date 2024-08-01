@@ -4,6 +4,8 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './shared/components/error/not-found/not-found.component';
 import { AutorizadoComponent } from './autorizado/autorizado.component';
 import { AuthorizationGuard } from './shared/guards/authorization.guard';
+import { PrestadorComponent } from './prestador/prestador/prestador.component';
+import { CompletarPrestadorComponent } from './prestador/completar-prestador/completar-prestador.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,6 +15,8 @@ const routes: Routes = [
     canActivate: [AuthorizationGuard],
     children: [
       { path: 'autorizado', component: AutorizadoComponent },
+      { path: 'prestador', component: PrestadorComponent },
+      { path: 'completar-prestador/:email', component: CompletarPrestadorComponent },
       { path: 'admin', loadChildren: () => import('./admin/admin.module').then(module => module.AdminModule)}
     ]
   },

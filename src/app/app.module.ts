@@ -11,20 +11,26 @@ import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
+import { PrestadorComponent } from './prestador/prestador/prestador.component';
+import { CompletarPrestadorComponent } from './prestador/completar-prestador/completar-prestador.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     AutorizadoComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    PrestadorComponent,
+    CompletarPrestadorComponent
    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    FormsModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
