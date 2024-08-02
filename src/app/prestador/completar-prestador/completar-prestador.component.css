@@ -1,4 +1,5 @@
 .complete-form-custom {
+  margin-bottom: 30px;
   width: 400px;
   margin-top: 20px;
   padding: 50px;
@@ -16,8 +17,7 @@
     width: 100px;
   }
 
-  .login-form-custom {
-    margin-top: 50px;
+  .complete-form-custom {
     align-items: center;
     width: 320px;
     padding: 20px;
@@ -27,3 +27,4 @@
 .container {
   max-width: 600px;
 }
+

@@ -14,6 +14,7 @@ import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { PrestadorComponent } from './prestador/prestador/prestador.component';
 import { CompletarPrestadorComponent } from './prestador/completar-prestador/completar-prestador.component';
 import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FormsModule } from '@angular/forms';
     SharedModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
-    FormsModule
+    FormsModule,
+    NgSelectModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

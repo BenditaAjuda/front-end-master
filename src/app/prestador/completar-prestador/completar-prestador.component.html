@@ -14,9 +14,11 @@
               <p class="text-danger">{{ mensagemErro }}</p>
 
                 <div class="container mt-5">
-                  <h2>Multi-Step Form</h2>
+
                   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                    <div *ngIf="currentStep === 1" formGroupName="step1">
+
+                    <div>
+
                       <div class="mb-3">
                         <label for="cep" class="form-label">CEP</label>
                         <input id="cep" type="text" class="form-control" formControlName="cep">
@@ -37,39 +39,38 @@
                         <label for="estado" class="form-label">Estado</label>
                         <input id="estado" type="text" class="form-control" formControlName="estado">
                       </div>
-                    </div>
+                      <div class="mb-3">
+                        <label for="nome" class="form-label">Nome</label>
+                        <input id="nome" type="text" class="form-control" formControlName="nome">
+                      </div>
+                      <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" type="text" class="form-control" formControlName="email">
+                      </div>
+                      <div class="mb-3">
+                        <label for="telefone" class="form-label">Telefone</label>
+                        <input id="telefone" type="text" class="form-control" formControlName="telefone">
+                      </div>
 
-                    <div *ngIf="currentStep === 2" formGroupName="step2">
-                      <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <input id="address" type="text" class="form-control" formControlName="address">
-                      </div>
-                      <div class="mb-3">
-                        <label for="city" class="form-label">City</label>
-                        <input id="city" type="text" class="form-control" formControlName="city">
-                      </div>
-                    </div>
-
-                    <div *ngIf="currentStep === 3" formGroupName="step3">
-                      <div class="mb-3">
-                        <label for="cardNumber" class="form-label">Card Number</label>
-                        <input id="cardNumber" type="text" class="form-control" formControlName="cardNumber">
-                      </div>
-                      <div class="mb-3">
-                        <label for="cardExpiry" class="form-label">Card Expiry</label>
-                        <input id="cardExpiry" type="text" class="form-control" formControlName="cardExpiry">
-                      </div>
                     </div>
 
                     <div class="d-flex justify-content-between">
-                      <button type="button" class="btn btn-secondary" *ngIf="currentStep < 0 || currentStep >= 2" (click)="goToPrevStep()" [disabled]="currentStep === 1">Previous</button>
-                      <button type="button" class="btn btn-primary" (click)="goToNextStep()"  [disabled]="controle === false || currentStep === 3 ">Próximo{{ controle }}</button>
-                      <button type="submit" class="btn btn-success" [disabled]="currentStep !== 3">Submit</button>
+                      <button type="button" class="btn btn-secondary" (click)="voltar()">Voltar</button>
+                      <button type="submit" class="btn btn-success"  [disabled]="form.invalid">Submit</button>
                     </div>
                   </form>
                 </div>
-
       </main>
 </div>
+
+<ng-select [items]="servicosMei"
+bindLabel="nome"
+bindValue="id"
+placeholder="Select items"
+[multiple]="true"
+[(ngModel)]="selectedItems">
+</ng-select>
+
+<p>Selected Items: {{ selectedItems | json }}</p>
 
 

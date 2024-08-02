@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { CepService } from 'src/app/shared/services/cep-service';
+import { PrestadorService } from '../prestador-service';
+import { ServicosMei } from 'src/app/shared/models/servicos-mei';
 
 @Component({
   selector: 'app-completar-prestador',
@@ -19,28 +22,27 @@ export class CompletarPrestadorComponent implements OnInit{
   form: FormGroup;
   currentStep: number = 1;
   mensagemErro = "";
-  controle: boolean = false;
+  nomeCompleto = "";
+  servicosMei: ServicosMei[] = [];
+  selectedItems = [];
 
   constructor(private cepService: CepService,
               private route: ActivatedRoute,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private spinner: NgxSpinnerService,
+              private prestadorService: PrestadorService) {
 
                 this.form = this.fb.group({
-                  step1: this.fb.group({
+
                     cep: ["", Validators.required],
                     logradouro: ["", [Validators.required, Validators.email]],
                     bairro: ["", [Validators.required, Validators.email]],
                     cidade: ["", [Validators.required, Validators.email]],
                     estado: ["", [Validators.required, Validators.email]],
-                  }),
-                  step2: this.fb.group({
-                    address: ['', Validators.required],
-                    city: ['', Validators.required],
-                  }),
-                  step3: this.fb.group({
-                    cardNumber: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],
-                    cardExpiry: ['', Validators.required],
-                  }),
+                    nome: ['', Validators.required],
+                    email: ['', Validators.required],
+                    telefone: ['', Validators.required],
+
                 });
 
               }
@@ -52,51 +54,86 @@ export class CompletarPrestadorComponent implements OnInit{
         this.email = parts[0];
         this.nome = parts[1];
         this.sobrenome = parts[2];
+        this.nomeCompleto = `${this.nome} ${this.sobrenome}`
       }
+
+      this.prestadorService.getServicosMei().subscribe({
+        next: (response: ServicosMei[]) => {
+          this.servicosMei = response;
+          console.log(this.servicosMei);
+        },
+        error: (error: any) => {
+          console.log("Erro prestador mei: ", error.error);
+        }
+      })
   }
 
   buscarCep() {
-    this.cepService.getCepInfo(this.cep).subscribe( {
+    this.mensagemErro = "";
+    this.spinner.show();
+    this.cepService.getCepInfo(this.cep).subscribe({
       next: (response: any) => {
+        this.spinner.hide();
         this.cepInfo = response
         if(response.erro){
           this.mensagemErro = "Endereço não encontrado";
 
+          this.form.reset({
+              cep: '',
+              logradouro: '',
+              bairro: '',
+              cidade: '',
+              estado: ''
+          });
+
         }
         else{
+          this.spinner.hide();
           console.log("Acerto");
           this.form.patchValue({
-            step1: {
               cep: this.cepInfo.cep,
               logradouro: this.cepInfo.logradouro,
               bairro: this.cepInfo.bairro,
               cidade: this.cepInfo.localidade,
-              estado: this.cepInfo.uf
-            }
+              estado: this.cepInfo.uf,
+              nome: this.nomeCompleto.toUpperCase(),
+              email: this.email
           });
-          this.controle = true;
+
+          this.form.get('cep')?.disable();
+          this.form.get('logradouro')?.disable();
+          this.form.get('bairro')?.disable();
+          this.form.get('cidade')?.disable();
+          this.form.get('estado')?.disable();
+          this.form.get('nome')?.disable();
+          this.form.get('email')?.disable();
+
         }
+      },
+      error: (error: any) => {
+        this.spinner.hide();
+        this.mensagemErro = "Digite o cep novamente";
+
+        this.form.reset({
+          step1: {
+            cep: '',
+            logradouro: '',
+            bairro: '',
+            cidade: '',
+            estado: ''
+          }
+        });
+
       }
     })
   }
 
-  goToNextStep() {
-    if (this.currentStep < 3) {
-      this.currentStep++;
-    }
-  }
+  voltar() {
 
-  goToPrevStep() {
-    if (this.currentStep > 1) {
-      this.currentStep--;
-    }
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      console.log(this.form.value);
-      alert('Form Submitted Successfully!');
-    }
+    console.log(this.form.value);
   }
 
 }
