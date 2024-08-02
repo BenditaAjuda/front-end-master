@@ -19,6 +19,7 @@ export class CompletarPrestadorComponent implements OnInit{
   form: FormGroup;
   currentStep: number = 1;
   mensagemErro = "";
+  controle: boolean = false;
 
   constructor(private cepService: CepService,
               private route: ActivatedRoute,
@@ -26,11 +27,11 @@ export class CompletarPrestadorComponent implements OnInit{
 
                 this.form = this.fb.group({
                   step1: this.fb.group({
-                    cep: [this.cepInfo?.cep, Validators.required],
-                    logradouro: [this.cepInfo?.logradouro, [Validators.required, Validators.email]],
-                    bairro: [this.cepInfo?.bairro, [Validators.required, Validators.email]],
-                    cidade: [this.cepInfo?.localidade, [Validators.required, Validators.email]],
-                    estado: [this.cepInfo?.uf, [Validators.required, Validators.email]],
+                    cep: ["", Validators.required],
+                    logradouro: ["", [Validators.required, Validators.email]],
+                    bairro: ["", [Validators.required, Validators.email]],
+                    cidade: ["", [Validators.required, Validators.email]],
+                    estado: ["", [Validators.required, Validators.email]],
                   }),
                   step2: this.fb.group({
                     address: ['', Validators.required],
@@ -64,7 +65,16 @@ export class CompletarPrestadorComponent implements OnInit{
         }
         else{
           console.log("Acerto");
-
+          this.form.patchValue({
+            step1: {
+              cep: this.cepInfo.cep,
+              logradouro: this.cepInfo.logradouro,
+              bairro: this.cepInfo.bairro,
+              cidade: this.cepInfo.localidade,
+              estado: this.cepInfo.uf
+            }
+          });
+          this.controle = true;
         }
       }
     })

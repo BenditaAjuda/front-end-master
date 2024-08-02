@@ -13,16 +13,6 @@
 
               <p class="text-danger">{{ mensagemErro }}</p>
 
-
-              <div *ngIf="cepInfo">
-                <h4>Endereço</h4>
-                <p>CEP: {{ cepInfo.cep }}</p>
-                <p>Logradouro: {{ cepInfo.logradouro }}</p>
-                <p>Bairro: {{ cepInfo.bairro }}</p>
-                <p>Cidade: {{ cepInfo.localidade }}</p>
-                <p>Estado: {{ cepInfo.uf }}</p>
-</div>
-
                 <div class="container mt-5">
                   <h2>Multi-Step Form</h2>
                   <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -72,8 +62,8 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                      <button type="button" class="btn btn-secondary" (click)="goToPrevStep()" [disabled]="currentStep === 1">Previous</button>
-                      <button type="button" class="btn btn-primary" (click)="goToNextStep()" [disabled]="currentStep === 3">Next</button>
+                      <button type="button" class="btn btn-secondary" *ngIf="currentStep < 0 || currentStep >= 2" (click)="goToPrevStep()" [disabled]="currentStep === 1">Previous</button>
+                      <button type="button" class="btn btn-primary" (click)="goToNextStep()"  [disabled]="controle === false || currentStep === 3 ">Próximo{{ controle }}</button>
                       <button type="submit" class="btn btn-success" [disabled]="currentStep !== 3">Submit</button>
                     </div>
                   </form>
