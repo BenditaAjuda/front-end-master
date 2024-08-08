@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center complete-form-custom">
+<div class="d-flex justify-content-center complete-form-custom" *ngIf="!controle">
       <main class="form-signin">
 
               <div class="text-center mb-4">
@@ -74,7 +74,7 @@ placeholder="Select items"
 
 <p>Selected Items: {{ selectedItems | json }}</p> -->
 
- <div class="section-registro">
+ <div class="section-registro" *ngIf="controle">
   <div class="title">Órgão</div>
   <div class="subtitle">Para selecionar clique no órgão no painel esquerdo. Para remover clique no órgão no painel direito.
   </div>

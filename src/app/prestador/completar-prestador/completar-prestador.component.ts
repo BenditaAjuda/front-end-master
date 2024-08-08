@@ -25,6 +25,7 @@ export class CompletarPrestadorComponent implements OnInit{
   nomeCompleto = "";
   servicosMei: ServicosMei[] = [];
   selectedItems = [];
+  controle: boolean = false;
 
   orgaoPesquisa: string = "";
   comboUnidade: any[] = []
@@ -139,6 +140,7 @@ export class CompletarPrestadorComponent implements OnInit{
 
   onSubmit() {
     console.log(this.form.value);
+    this.controle = true;
   }
 
   public selecionarOrgao(orgao: any) {
