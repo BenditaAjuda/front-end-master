@@ -15,6 +15,8 @@ import { PrestadorComponent } from './prestador/prestador/prestador.component';
 import { CompletarPrestadorComponent } from './prestador/completar-prestador/completar-prestador.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FilterPipe } from './pipes/filter.pipe';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     HomeComponent,
     NavbarComponent,
     PrestadorComponent,
-    CompletarPrestadorComponent
+    CompletarPrestadorComponent,
+    FilterPipe
    ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     BrowserAnimationsModule,
     NgxSpinnerModule,
     FormsModule,
-    NgSelectModule
+    NgSelectModule,
+    TooltipModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

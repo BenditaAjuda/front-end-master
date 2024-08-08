@@ -26,6 +26,10 @@ export class CompletarPrestadorComponent implements OnInit{
   servicosMei: ServicosMei[] = [];
   selectedItems = [];
 
+  orgaoPesquisa: string = "";
+  comboUnidade: any[] = []
+  orgaosSelecionados: any[] = []
+
   constructor(private cepService: CepService,
               private route: ActivatedRoute,
               private fb: FormBuilder,
@@ -60,6 +64,7 @@ export class CompletarPrestadorComponent implements OnInit{
       this.prestadorService.getServicosMei().subscribe({
         next: (response: ServicosMei[]) => {
           this.servicosMei = response;
+          this.comboUnidade = response;
           console.log(this.servicosMei);
         },
         error: (error: any) => {
@@ -134,6 +139,23 @@ export class CompletarPrestadorComponent implements OnInit{
 
   onSubmit() {
     console.log(this.form.value);
+  }
+
+  public selecionarOrgao(orgao: any) {
+    let idxOrgao = this.comboUnidade?.indexOf(orgao);
+    this.comboUnidade?.splice(idxOrgao, 1);
+    this.orgaosSelecionados.push(orgao);
+  }
+
+  public removerTodosOrgaos() {
+    this.comboUnidade = this.comboUnidade.concat(this.orgaosSelecionados);
+    this.orgaosSelecionados = [];
+  }
+
+  public removerOrgao(orgao: any) {
+    let idxOrgao = this.orgaosSelecionados.indexOf(orgao);
+    this.orgaosSelecionados.splice(idxOrgao, 1);
+    this.comboUnidade.push(orgao);
   }
 
 }

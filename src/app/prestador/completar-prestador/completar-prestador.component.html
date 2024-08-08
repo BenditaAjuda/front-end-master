@@ -61,9 +61,10 @@
                   </form>
                 </div>
       </main>
+
 </div>
 
-<ng-select [items]="servicosMei"
+<!-- <ng-select [items]="servicosMei"
 bindLabel="nome"
 bindValue="id"
 placeholder="Select items"
@@ -71,6 +72,49 @@ placeholder="Select items"
 [(ngModel)]="selectedItems">
 </ng-select>
 
-<p>Selected Items: {{ selectedItems | json }}</p>
+<p>Selected Items: {{ selectedItems | json }}</p> -->
 
+ <div class="section-registro">
+  <div class="title">Órgão</div>
+  <div class="subtitle">Para selecionar clique no órgão no painel esquerdo. Para remover clique no órgão no painel direito.
+  </div>
 
+  <div class="d-flex section-orgaos">
+      <div class="col-6 painel-orgaos">
+          <div>
+              <input type="text" placeholder="Pesquisa" class="search-orgaos" [(ngModel)]="orgaoPesquisa" [ngModelOptions]="{standalone: true}">
+              <div class="container-lista-orgaos d-flex flex-column justify-content-between">
+                  <div class="lista-orgaos">
+                      <!-- <div *ngFor="let orgao of comboUnidade | filter: orgaoPesquisa | orderBy: 'Descricao'" class="item-orgaos" (click)="selecionarOrgao(orgao)"> -->
+                        <div *ngFor="let orgao of servicosMei | filter: orgaoPesquisa" class="item-orgaos" (click)="selecionarOrgao(orgao)">
+                          <p class="my-0">{{ orgao.nome }}</p>
+                        </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="painel-orgaos col-6">
+          <div>
+              <p class="title-painel">Selecionados</p>
+              <div class="container-lista-orgaos d-flex flex-column justify-content-between">
+                  <div class="lista-orgaos">
+                      <div *ngIf="orgaosSelecionados.length > 0">
+                          <div *ngFor="let orgao of orgaosSelecionados" class="item-orgaos" (click)="removerOrgao(orgao)"  tooltip="excluir">
+                              <p class="my-0"> {{orgao.nome}}</p>
+                          </div>
+                      </div>
+                      <div *ngIf="orgaosSelecionados?.length == 0" class="text-center">
+                          <small>Nenhum órgão foi selecionado</small>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="d-flex justify-content-end mover-todos">
+              <a href="javascript:void(0)" (click)="removerTodosOrgaos()" *ngIf="orgaosSelecionados.length > 0">
+                  <div class="mobile">Remover todos</div>
+              </a>
+          </div>
+      </div>
+
+  </div>
