@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CepService } from 'src/app/shared/services/cep-service';
 import { PrestadorService } from '../prestador-service';
 import { ServicosMei } from 'src/app/shared/models/servicos-mei';
+import { Prestador } from 'src/app/shared/models/prestador';
 
 @Component({
   selector: 'app-completar-prestador',
@@ -28,9 +29,10 @@ export class CompletarPrestadorComponent implements OnInit{
   controle: boolean = false;
   isCepValid: boolean = false;
   submitted = false;
-  orgaoPesquisa: string = "";
-  comboUnidade: any[] = []
-  orgaosSelecionados: any[] = []
+  servicoPesquisa: string = "";
+  comboUnidade: any[] = [];
+  servicosSelecionados: any[] = [];
+  prestador?: Prestador;
 
   constructor(private cepService: CepService,
               private route: ActivatedRoute,
@@ -39,15 +41,14 @@ export class CompletarPrestadorComponent implements OnInit{
               private prestadorService: PrestadorService) {
 
                 this.form = this.fb.group({
-
-                    cep: ["", Validators.required],
-                    logradouro: ["", [Validators.required, Validators.email]],
-                    bairro: ["", [Validators.required, Validators.email]],
-                    cidade: ["", [Validators.required, Validators.email]],
-                    estado: ["", [Validators.required, Validators.email]],
-                    nome: ['', Validators.required],
-                    email: ['', Validators.required],
-                    telefone: ['', Validators.required],
+                  cep: [{ value: '', disabled: true }, Validators.required],
+                  logradouro: ["", [Validators.required, Validators.email]],
+                  bairro: ["", [Validators.required, Validators.email]],
+                  cidade: ["", [Validators.required, Validators.email]],
+                  estado: ["", [Validators.required, Validators.email]],
+                  nome: ['', Validators.required],
+                  email: ['', Validators.required],
+                  telefone: ['', Validators.required],
 
                 });
 
@@ -66,11 +67,8 @@ export class CompletarPrestadorComponent implements OnInit{
       this.prestadorService.getServicosMei().subscribe({
         next: (response: ServicosMei[]) => {
           this.servicosMei = response;
-          this.comboUnidade = response;
-          console.log(this.servicosMei);
         },
         error: (error: any) => {
-          console.log("Erro prestador mei: ", error.error);
         }
       })
   }
@@ -79,8 +77,6 @@ export class CompletarPrestadorComponent implements OnInit{
     // Simple validation for CEP format (00000-000)
     const cepPattern = /^[0-9]{5}[0-9]{3}$/;
     this.isCepValid = cepPattern.test(this.cep);
-    console.log("CEP Value: ", this.cep);  // Log the CEP value
-    console.log("Is CEP Valid?: ", this.isCepValid);  // Log if the CEP is valid
   }
 
   buscarCep() {
@@ -104,7 +100,6 @@ export class CompletarPrestadorComponent implements OnInit{
         }
         else{
           this.spinner.hide();
-          console.log("Acerto");
           this.form.patchValue({
               cep: this.cepInfo.cep,
               logradouro: this.cepInfo.logradouro,
@@ -115,15 +110,17 @@ export class CompletarPrestadorComponent implements OnInit{
               email: this.email
           });
 
-          this.form.get('cep')?.disable();
-          this.form.get('logradouro')?.disable();
-          this.form.get('bairro')?.disable();
-          this.form.get('cidade')?.disable();
-          this.form.get('estado')?.disable();
-          this.form.get('nome')?.disable();
-          this.form.get('email')?.disable();
+          console.log("Aqui teste1: ", this.form.value);
 
+          // this.form.get('cep')?.disable();
+          // this.form.get('logradouro')?.disable();
+          // this.form.get('bairro')?.disable();
+          // this.form.get('cidade')?.disable();
+          // this.form.get('estado')?.disable();
+          // this.form.get('nome')?.disable();
+          // this.form.get('email')?.disable();
         }
+        console.log("Aqui teste2: ", this.form.value);
       },
       error: (error: any) => {
         this.spinner.hide();
@@ -149,25 +146,36 @@ export class CompletarPrestadorComponent implements OnInit{
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.form.value);
-    this.controle = true;
+    //this.controle = true;
+    console.log("Aqui: ", this.form.value);
   }
 
   public selecionarOrgao(orgao: any) {
     let idxOrgao = this.comboUnidade?.indexOf(orgao);
     this.comboUnidade?.splice(idxOrgao, 1);
-    this.orgaosSelecionados.push(orgao);
+    this.servicosSelecionados.push(orgao);
   }
 
   public removerTodosOrgaos() {
-    this.comboUnidade = this.comboUnidade.concat(this.orgaosSelecionados);
-    this.orgaosSelecionados = [];
+    this.comboUnidade = this.comboUnidade.concat(this.servicosSelecionados);
+    this.servicosSelecionados = [];
   }
 
   public removerOrgao(orgao: any) {
-    let idxOrgao = this.orgaosSelecionados.indexOf(orgao);
-    this.orgaosSelecionados.splice(idxOrgao, 1);
+    let idxOrgao = this.servicosSelecionados.indexOf(orgao);
+    this.servicosSelecionados.splice(idxOrgao, 1);
     this.comboUnidade.push(orgao);
   }
+
+  public completarCadastro() {
+    const uniqueData = this.servicosSelecionados.filter((value, index, self) =>
+      index === self.findIndex((t) => (
+        t.id === value.id && t.nome === value.nome
+      ))
+    )
+    console.log("Aqui2: ", uniqueData);
+    console.log("Aqui3: ", this.form.value);
+
+  };
 
 }

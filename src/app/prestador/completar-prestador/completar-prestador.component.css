@@ -22,6 +22,13 @@
     width: 320px;
     padding: 20px;
   }
+
+  .mover-todos {
+    display: none;
+    }
+  .mobile {
+    display: none;
+  }
 }
 
 .container {
@@ -64,18 +71,27 @@
   font-size: small;
 }
 
+.container-servicos {
+  display: flex;
+  justify-content: center;
+}
+
 .section-registro {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 80%;
   margin-top: 10px;
   margin-bottom: 30px;
+  border-radius: 10px;
 }
 
 .section-registro>.title {
-  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 25px;
 }
 
 .section-registro>.subtitle {
   font-size: small;
-  margin-bottom: 5px;
+  padding: 10px;
 }
 
 .upload{
@@ -90,7 +106,17 @@ padding: 0 10px;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
+border-radius: 0 0 10px 0;
 }
+
+.painel-orgaos-esquerda {
+  border: solid 1px #dedfdf;
+  margin: 0;
+  background-color: #fff;
+  padding: 0 10px;
+
+  border-radius: 0 0 0 10px;
+  }
 
 .title-painel {
   width: 100%;
@@ -123,7 +149,9 @@ min-height: 35px;
 }
 
 .mover-todos {
-padding-bottom: 2%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2%;
 }
 
 .mover-todos>a {
@@ -144,7 +172,7 @@ padding-bottom: 2%;
   margin-right: 10px;
 }
 
-.section-orgaos {
+.section-servicos {
   font-size: 80%;
 }
 
@@ -176,7 +204,7 @@ font-weight: bold;
 
 .protecao-identidade{
 display: flex;
-align-items: start;
+align-items: flex-start;
 }
 .protecao-identidade input{
 height: 2.2em;
@@ -235,4 +263,5 @@ margin-left: 0.2em;
   visibility: visible;
   opacity: 1;
 }
+
 
