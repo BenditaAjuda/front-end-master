@@ -17,6 +17,8 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FilterPipe } from './pipes/filter.pipe';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { NgxMaskModule } from 'ngx-mask'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     NgxSpinnerModule,
     FormsModule,
     NgSelectModule,
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    NgxMaskModule.forRoot(),
+    NgbModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

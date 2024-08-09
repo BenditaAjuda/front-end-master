@@ -26,7 +26,8 @@ export class CompletarPrestadorComponent implements OnInit{
   servicosMei: ServicosMei[] = [];
   selectedItems = [];
   controle: boolean = false;
-
+  isCepValid: boolean = false;
+  submitted = false;
   orgaoPesquisa: string = "";
   comboUnidade: any[] = []
   orgaosSelecionados: any[] = []
@@ -72,6 +73,14 @@ export class CompletarPrestadorComponent implements OnInit{
           console.log("Erro prestador mei: ", error.error);
         }
       })
+  }
+
+  validateCep() {
+    // Simple validation for CEP format (00000-000)
+    const cepPattern = /^[0-9]{5}[0-9]{3}$/;
+    this.isCepValid = cepPattern.test(this.cep);
+    console.log("CEP Value: ", this.cep);  // Log the CEP value
+    console.log("Is CEP Valid?: ", this.isCepValid);  // Log if the CEP is valid
   }
 
   buscarCep() {
@@ -139,6 +148,7 @@ export class CompletarPrestadorComponent implements OnInit{
   }
 
   onSubmit() {
+    this.submitted = true;
     console.log(this.form.value);
     this.controle = true;
   }
