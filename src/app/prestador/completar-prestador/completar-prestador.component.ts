@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CepService } from 'src/app/shared/services/cep-service';
@@ -14,16 +14,29 @@ import { Prestador } from 'src/app/shared/models/prestador';
 })
 export class CompletarPrestadorComponent implements OnInit{
 
+
+  prestador: Prestador = {
+    logradouro: '',
+    bairro: '',
+    cidade: '',
+    estado: '',
+    nome: '',
+    email: '',
+    telefoneCelular: '',
+    telefoneFixo: '',
+    complemento: '',
+    servicos: []
+  };
+
+  mensagemFormSemCep: string = "";
   cepInfo: any;
   cep: string = '';
-  email?: string
   nome?: string;
   sobrenome?: string;
   data: string | null = null;
   form: FormGroup;
   currentStep: number = 1;
   mensagemErro = "";
-  nomeCompleto = "";
   servicosMei: ServicosMei[] = [];
   selectedItems = [];
   controle: boolean = false;
@@ -32,7 +45,8 @@ export class CompletarPrestadorComponent implements OnInit{
   servicoPesquisa: string = "";
   comboUnidade: any[] = [];
   servicosSelecionados: any[] = [];
-  prestador?: Prestador;
+  nomeCompleto!: string;
+  email!: string;
 
   constructor(private cepService: CepService,
               private route: ActivatedRoute,
@@ -40,18 +54,21 @@ export class CompletarPrestadorComponent implements OnInit{
               private spinner: NgxSpinnerService,
               private prestadorService: PrestadorService) {
 
-                this.form = this.fb.group({
-                  cep: [{ value: '', disabled: true }, Validators.required],
-                  logradouro: ["", [Validators.required, Validators.email]],
-                  bairro: ["", [Validators.required, Validators.email]],
-                  cidade: ["", [Validators.required, Validators.email]],
-                  estado: ["", [Validators.required, Validators.email]],
-                  nome: ['', Validators.required],
-                  email: ['', Validators.required],
-                  telefone: ['', Validators.required],
-
+                this.form = new FormGroup({
+                  complemento: new FormControl('', [
+                    Validators.required,
+                    Validators.maxLength(20)
+                  ]),
+                  telefoneCelular: new FormControl('', [
+                    Validators.required,
+                    Validators.minLength(9)
+                  ]),
+                  telefoneFixo: new FormControl('')
                 });
 
+              }
+              get f() {
+                return this.form.controls;
               }
 
   ngOnInit(): void {
@@ -88,54 +105,21 @@ export class CompletarPrestadorComponent implements OnInit{
         this.cepInfo = response
         if(response.erro){
           this.mensagemErro = "Endereço não encontrado";
-
-          this.form.reset({
-              cep: '',
-              logradouro: '',
-              bairro: '',
-              cidade: '',
-              estado: ''
-          });
-
         }
         else{
           this.spinner.hide();
-          this.form.patchValue({
-              cep: this.cepInfo.cep,
-              logradouro: this.cepInfo.logradouro,
-              bairro: this.cepInfo.bairro,
-              cidade: this.cepInfo.localidade,
-              estado: this.cepInfo.uf,
-              nome: this.nomeCompleto.toUpperCase(),
-              email: this.email
-          });
-
-          console.log("Aqui teste1: ", this.form.value);
-
-          // this.form.get('cep')?.disable();
-          // this.form.get('logradouro')?.disable();
-          // this.form.get('bairro')?.disable();
-          // this.form.get('cidade')?.disable();
-          // this.form.get('estado')?.disable();
-          // this.form.get('nome')?.disable();
-          // this.form.get('email')?.disable();
+          this.prestador.cep = this.cepInfo.cep;
+          this.prestador.logradouro = this.cepInfo.logradouro;
+          this.prestador.bairro = this.cepInfo.bairro;
+          this.prestador.cidade = this.cepInfo.localidade;
+          this.prestador.estado = this.cepInfo.uf;
+          this.prestador.nome = this.nomeCompleto;
+          this.prestador.email = this.email;
         }
-        console.log("Aqui teste2: ", this.form.value);
       },
       error: (error: any) => {
         this.spinner.hide();
         this.mensagemErro = "Digite o cep novamente";
-
-        this.form.reset({
-          step1: {
-            cep: '',
-            logradouro: '',
-            bairro: '',
-            cidade: '',
-            estado: ''
-          }
-        });
-
       }
     })
   }
@@ -145,10 +129,21 @@ export class CompletarPrestadorComponent implements OnInit{
   }
 
   onSubmit() {
-    this.submitted = true;
-    //this.controle = true;
-    console.log("Aqui: ", this.form.value);
+    this.mensagemFormSemCep = '';
+    if (this.form.valid &&
+        this.prestador.cep != '' &&
+        this.prestador.estado != '' &&
+        this.prestador.cidade != '' ) {
+      this.prestador.complemento = this.form.value.complemento;
+      this.prestador.telefoneFixo = this.form.value.telefoneFixo;
+      this.prestador.telefoneCelular = this.form.value.telefoneCelular;
+      this.controle = true;
+
+    } else {
+      this.mensagemFormSemCep = "Complete seu endereço com um cep válido";
+    }
   }
+
 
   public selecionarOrgao(orgao: any) {
     let idxOrgao = this.comboUnidade?.indexOf(orgao);
@@ -173,9 +168,8 @@ export class CompletarPrestadorComponent implements OnInit{
         t.id === value.id && t.nome === value.nome
       ))
     )
-    console.log("Aqui2: ", uniqueData);
-    console.log("Aqui3: ", this.form.value);
-
+    this.prestador.servicos = uniqueData;
+    console.log("Aqui: ", this.prestador);
   };
 
 }
