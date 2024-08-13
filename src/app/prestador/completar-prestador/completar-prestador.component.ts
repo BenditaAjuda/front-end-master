@@ -25,7 +25,7 @@ export class CompletarPrestadorComponent implements OnInit{
     telefoneCelular: '',
     telefoneFixo: '',
     complemento: '',
-    servicos: []
+    servicosDto: []
   };
 
   mensagemFormSemCep: string = "";
@@ -168,8 +168,25 @@ export class CompletarPrestadorComponent implements OnInit{
         t.id === value.id && t.nome === value.nome
       ))
     )
-    this.prestador.servicos = uniqueData;
-    console.log("Aqui: ", this.prestador);
+    this.prestador.servicosDto = uniqueData;
+
+    console.log("Aqui", this.prestador);
+
+
+    this.prestadorService.cadastrarPrestador(this.prestador).subscribe({
+      next: (response: any) => {
+        console.log('Certo: ', response);
+
+      },
+      error: error => {
+        console.log('Error: ', error.error);
+      },
+      complete: () => {
+        this.spinner.hide();
+      }
+
+    })
+
   };
 
 }

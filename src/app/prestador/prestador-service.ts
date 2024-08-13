@@ -16,7 +16,12 @@ export class PrestadorService {
     }
 
   getServicosMei(): Observable<ServicosMei[]> {
-      return this.http.get<ServicosMei[]>(`${environment.baseUrl}ServicosMei/`)
-      }
+    return this.http.get<ServicosMei[]>(`${environment.baseUrl}ServicosMei/`)
+    }
+
+  cadastrarPrestador(prestador: any): Observable<any> {
+    return this.http.post(`${environment.baseUrl}Prestador`, prestador);
+  }
 
 }
+
