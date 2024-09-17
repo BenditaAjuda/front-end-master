@@ -114,7 +114,7 @@ export class LoginComponent implements OnInit {
 
           this.router.navigate(['/completar-prestador/', email]);
         }, error: error => {
-          this.router.navigateByUrl('/prestador');
+          this.router.navigate(['/prestador/', email]);
         }
     })
   }

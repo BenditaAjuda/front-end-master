@@ -15,7 +15,7 @@ const routes: Routes = [
     canActivate: [AuthorizationGuard],
     children: [
       { path: 'autorizado', component: AutorizadoComponent },
-      { path: 'prestador', component: PrestadorComponent },
+      { path: 'prestador/:email', component: PrestadorComponent },
       { path: 'completar-prestador/:email', component: CompletarPrestadorComponent },
       { path: 'admin', loadChildren: () => import('./admin/admin.module').then(module => module.AdminModule)}
     ]
