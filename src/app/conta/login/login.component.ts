@@ -107,8 +107,11 @@ export class LoginComponent implements OnInit {
     }
 
     consultaPrestadorExiste(email: string) {
-      this.prestadorService.getPrestadorExiste(email).subscribe({
+      let emailConsulta = email.split('|');
+      this.prestadorService.getPrestadorExiste(emailConsulta[0]).subscribe({
         next: (response: any) => {
+          console.log("Ver se prestador existe: ", response);
+
           this.router.navigate(['/completar-prestador/', email]);
         }, error: error => {
           this.router.navigateByUrl('/prestador');
