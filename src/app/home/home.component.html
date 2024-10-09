@@ -1,3 +1,35 @@
-<p>
-  home works!
-</p>
+<div class="banner">
+  <div class="banner-content">
+    <h1>Ache aqui tudo que você precisa</h1>
+    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
+    <div class="search-box">
+      <ng-select
+        class="custom"
+        [items]="servicosMei$ | async"
+        bindLabel="nome"
+        bindValue="id"
+        [(ngModel)]="selectedService"
+        [multiple]="false"
+        placeholder="Select items">
+      </ng-select>
+
+      <button (click)="buscarPrestadores()">Busca</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ensure this div is placed directly after the banner -->
+<div class="card-container" *ngIf="prestadores$ | async as prestadores" style="margin-top: 50px; margin-bottom: 30px;">
+
+    <div class="card" *ngFor="let prestador of prestadores">
+      <h1>{{ prestador.nome | capitalizeFirst}} <i class="bi bi-person-fill"></i></h1>
+      <div>
+        <span><span class="span-interno">Bairro:</span> {{ prestador.bairro }}</span>
+        <span><span class="span-interno">Cidade:</span> {{ prestador.cidade }}</span>
+        <span><span class="span-interno">Telefone:</span> {{ prestador.telefoneCelular }}</span>
+      </div>
+      <button>Detalhes</button>
+    </div>
+
+</div>
+

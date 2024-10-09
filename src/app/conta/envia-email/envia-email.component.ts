@@ -44,7 +44,7 @@ export class EnviaEmailComponent {
 
   initializeForm() {
     this.emailForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern('^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$')]],
+      email: ['', Validators.required,],
     })
   }
 

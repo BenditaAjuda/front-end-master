@@ -1,83 +1,54 @@
-/* Card styling */
 .card {
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-  border: none;
+  border: 1px solid #e0e0e0; /* Light gray border */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  overflow: hidden; /* Ensures rounded corners are respected */
+  margin: 20px; /* Space around the card */
+  margin-top: 100px;
+  transition: transform 0.3s; /* Smooth scaling on hover */
+}
+
+.card:hover {
+  transform: scale(1.08); /* Slightly enlarge on hover */
 }
 
 .card-header {
-  background-color: #4b5563;
-  color: #f3f4f6;
-  font-size: 1.25rem;
-  font-weight: 600;
-  padding: 15px;
-  text-align: center;
+  background-color: #78b1ee; /* Bootstrap primary color */
+  color: white; /* White text */
+  padding: 16px; /* Padding inside the header */
 }
 
 .card-body {
-  padding: 20px;
-  background-color: #ffffff;
+  padding: 16px; /* Padding inside the body */
 }
 
-/* Tree node hover effects */
-.tree-node {
-  cursor: pointer;
-  padding: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  color: #1f2937;
+.card-body h3 {
+  margin-top: 16px; /* Space above the h3 */
 }
 
-.tree-node:hover {
-  background-color: #d1d5db;
-  color: #1f2937;
-  font-weight: 600;
+.card-body ul {
+  list-style-type: none; /* Remove default list style */
+  padding: 0; /* Remove default padding */
 }
 
-/* Add a subtle transition for the expand/collapse */
-.tree-children {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.4s ease-out, padding 0.3s ease-out;
+.card-body li {
+  background: #f8f9fa; /* Light background for list items */
+  margin: 5px 0; /* Space between items */
+  padding: 8px; /* Padding inside items */
+  border-radius: 4px; /* Rounded corners for items */
 }
 
-.tree-children.expanded {
-  max-height: 300px; /* Adjust this value depending on the height of your content */
-  transition: max-height 0.4s ease-in, padding 0.3s ease-in;
-  padding-left: 10px;
+.card-header .btn-link {
+  color: #007bff; /* Primary color for the icon */
+  font-size: 1.2rem; /* Slightly larger font size */
+  text-decoration: none; /* Remove underline */
 }
 
-/* Add some list styling */
-.nested {
-  list-style-type: none;
-  margin-left: 20px;
-  padding-left: 0;
+.card-header .btn-link:hover {
+  color: #0056b3; /* Darker shade on hover */
 }
 
-.nested li {
-  padding: 5px 0;
-}
-
-/* Icons for expanded/collapsed state */
-.tree-node span {
-  display: inline-block;
-  width: 20px;
-  text-align: center;
-  margin-right: 10px;
+span {
+  color: white;
   font-weight: bold;
-}
-
-/* Customize the list-group item */
-.list-group-item {
-  background-color: transparent;
-  border: none;
-  padding-left: 0;
-}
-
-.list-group-item:hover {
-  background-color: transparent;
 }

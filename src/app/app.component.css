@@ -1,4 +1,10 @@
 .principal {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.principal app-filho {
+  width: 100%;
 }

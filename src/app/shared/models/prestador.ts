@@ -11,6 +11,6 @@ export interface Prestador {
   telefoneCelular: string;
   telefoneFixo: string;
   complemento: string;
-  servicosDto: ServicosMei[];
+  servicosDto?: ServicosMei[];
 }
 

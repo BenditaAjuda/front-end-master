@@ -19,6 +19,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxMaskModule } from 'ngx-mask'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CapitalizeFirstPipe } from './pipes/primeira-maiuscula.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NavbarComponent,
     PrestadorComponent,
     CompletarPrestadorComponent,
-    FilterPipe
+    FilterPipe,
+    CapitalizeFirstPipe
    ],
   imports: [
     BrowserModule,

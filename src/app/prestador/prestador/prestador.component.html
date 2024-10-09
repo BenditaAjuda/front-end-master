@@ -1,22 +1,26 @@
-<div class="card">
-  <div class="card-header">
-    Tree View  Tree View  Tree View  Tree View  Tree View  Tree View  Tree View
+<div *ngIf="prestador$ | async as prestador">
+
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h2>{{ prestador.nome | capitalizeFirst }}</h2>
+      <button class="btn btn-link" title="Update">
+        <span>Alterar<i class="bi bi-pencil" style="margin-left: 10px;"></i></span> <!-- Update icon -->
+      </button>
+    </div>
+    <div class="card-body">
+      <p><strong>Email:</strong> {{ prestador.email }}</p>
+      <p><strong>Telefone Celular:</strong> {{ prestador.telefoneCelular }}</p>
+      <p><strong>Telefone Fixo:</strong> {{ prestador.telefoneFixo }}</p>
+      <p><strong>Endereço:</strong> {{ prestador.logradouro }}, {{ prestador.bairro }}, {{ prestador.cidade }}, {{ prestador.estado }}</p>
+      <p><strong>Complemento:</strong> {{ prestador.complemento }}</p>
+      <h3>Serviços:</h3>
+      <ul>
+        <li *ngFor="let servico of prestador.servicosDto">
+          {{ servico.nome }} <!-- Adjust property name based on your ServicosMei structure -->
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="card-body">
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let node of treeData">
-        <div (click)="toggle(node)" class="tree-node">
-          <span *ngIf="node.children?.length">{{ node.expanded ? '-' : '+' }}</span>
-          {{ node.name }}
-        </div>
-        <div class="tree-children" [ngClass]="{'expanded': node.expanded, 'collapsed': !node.expanded}">
-          <ul class="list-group nested" *ngIf="node.children?.length">
-            <li class="list-group-item" *ngFor="let child of node.children">
-              {{ child.name }}
-            </li>
-          </ul>
-        </div>
-      </li>
-    </ul>
-  </div>
+
+
 </div>

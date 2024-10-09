@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PrestadorService } from '../prestador-service';
+import { Prestador } from 'src/app/shared/models/prestador';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-prestador',
@@ -11,6 +13,8 @@ export class PrestadorComponent implements OnInit{
 
   data: string | null = null;
   email!: string;
+  servicosMei!: any[];
+  prestador$!: Observable<Prestador>;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -31,36 +35,66 @@ export class PrestadorComponent implements OnInit{
         console.log("Ver se prestador existe: ", response);
         this.router.navigate(['/completar-prestador/', this.data]);
       }, error: error => {
-        this.consultarDadosPrestador();
+        this.consultarServicosMeiPrestador();
       }
     })
   }
 
-  consultarDadosPrestador() {
-    console.log("Vou consultar agora");
+    consultarServicosMeiPrestador() {
+    this.prestadorService.getDadosEServicosPrestador(this.email).subscribe({
+      next: (response: Prestador) => {
+        this.prestador$ = of(response);
+        console.log(this.servicosMei);
+      }, error: error => {
+        console.log("Erro");
+
+      }
+    })
   }
 
-  treeData = [
+  //acho que não precisa3
+  // consultarServicosMeiPrestador() {
+  //   this.prestadorService.getServicosMeiPrestador(this.email).subscribe({
+  //     next: (response: any) => {
+  //       this.servicosMei = response;
+  //       console.log(this.servicosMei);
+  //     }, error: error => {
+  //       console.log("Erro");
+
+  //     }
+  //   })
+  // }
+
+  // consultarServicosMeiPrestador() {
+  //   this.prestadorService.getDadosEServicosPrestador(this.email).subscribe({
+  //     next: (response: any) => {
+  //       this.servicosMei = response;
+  //       console.log(this.servicosMei);
+  //     }, error: error => {
+  //       console.log("Erro");
+
+  //     }
+  //   })
+  // }
+
+  items = [
     {
-      name: 'Parent 1',
-      expanded: false,
-      children: [
-        { name: 'Child 1.1' },
-        { name: 'Child 1.2' }
-      ]
+      id: 401,
+      nome: "Administradores",
+      prestadores: null,
+      isCollapsed: true
     },
     {
-      name: 'Parent 2',
-      expanded: false,
-      children: [
-        { name: 'Child 2.1' },
-        { name: 'Child 2.2' }
-      ]
+      id: 429,
+      nome: "Geólogos",
+      prestadores: null,
+      isCollapsed: true
+    },
+    {
+      id: 444,
+      nome: "Químicos",
+      prestadores: null,
+      isCollapsed: true
     }
   ];
-
-  toggle(node: any) {
-    node.expanded = !node.expanded;
-  }
-
 }

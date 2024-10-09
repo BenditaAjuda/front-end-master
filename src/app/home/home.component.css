@@ -1,0 +1,136 @@
+:host {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner {
+  background: linear-gradient(135deg, #f0f0f0, #d9d9d9); /* Light gray gradient */
+  color: black;
+  text-align: center;
+  padding: 60px 20px;
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.banner-content h1 {
+  font-size: 3em;
+  margin-bottom: 10px;
+}
+
+.banner-content p {
+  font-size: 1.2em;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  line-height: 1.5;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.search-box input {
+  padding: 10px;
+  width: 300px;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+  font-size: 1em;
+  margin-right: 10px;
+}
+
+.search-box button {
+  padding: 10px 20px;
+  background-color: #78afd3;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 1.3em;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.search-box button:hover {
+  background-color: #4a5fd6;
+}
+
+.ng-select.custom ::ng-deep .ng-select-container  {
+  width: 500px;
+  height: 60px;
+  min-height: 0px;
+  border-radius: 10px;
+}
+
+.card-container {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column; /* Stack cards vertically */
+  gap: 20px; /* Space between cards */
+  max-width: 1000px; /* Set a maximum width for the cards */
+  margin: auto; /* Center the container */
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s; /* Smooth transform on hover */
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+}
+
+.card h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 1em;
+  color: #666; /* Gray text */
+}
+
+.card button {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.card button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+span {
+  margin: 10px;
+  font-size: 25px;
+  color: green;
+}
+
+.span-interno {
+  font-size: 30px;
+  color: #007bff;
+}
+
+@media (max-width: 768px) {
+  .ng-select.custom ::ng-deep .ng-select-container  {
+    width: 200px;
+    height: 40px;
+    min-height: 0px;
+    border-radius: 10px;
+  }
+}
